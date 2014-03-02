@@ -24,23 +24,17 @@ public class OperatorDAO implements IOperatorDAO {
 
 	@Override
 	public void createOperator(OperatorDTO opr) throws DALException {
-		// TODO Auto-generated method stub
-		
+		opr.getName(active);
 	}
 
 	@Override
 	public void updateOperator(OperatorDTO opr) throws DALException {
-		// TODO Auto-generated method stub
-		
+		opr.setPassword(active, "tjir");
 	}
 	
 	@Override
 	public String getInitials(OperatorDTO opr) {
 		String ini = "";
-		
-//		for(String s : opr.name.split(" ")) {
-//			ini += s.substring(0, 1);
-//		}
 		
 		return ini;
 	}
