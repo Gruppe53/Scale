@@ -22,7 +22,7 @@ public class OperatorDTO implements IOperatorDTO {
 		
 		public Operator(String name, String cpr, String password) {
 			super();
-			this.id = (10 + oprs.size());
+			this.id = (10 + oprs.size()); // Need to find largest id instead - this will create multiple id's when using "delete user" method
 			this.name = name;
 			this.cpr = cpr;
 			this.password = password;

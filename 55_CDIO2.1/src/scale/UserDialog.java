@@ -173,9 +173,17 @@ public class UserDialog extends JComponent {
 	private void createUser() {
 		String name = JOptionPane.showInputDialog("Name");
 		String cpr = JOptionPane.showInputDialog("CPR");
-		String password = JOptionPane.showInputDialog("Password");
 		
-		textArea.append("[" + getDate() + "]\t " + name + " - " + cpr + " - " + password + "\n");
+		JPasswordField nPass = new JPasswordField();
+		JPasswordField qPass = new JPasswordField();
+		
+		int nPassOk = JOptionPane.showConfirmDialog(null, nPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		int qPassOk = JOptionPane.showConfirmDialog(null, qPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		
+		if(nPassOk == 0)
+			if(qPassOk == 0)
+				if(nPass.getPassword().equals(qPass.getPassword()))
+					textArea.append("[" + getDate() + "]\t " + name + " - " + cpr + " - " + nPass.getPassword() + "\n");
 	}
 	
 	private void deleteUser(int id) {
@@ -184,12 +192,19 @@ public class UserDialog extends JComponent {
 	}
 	
 	private void newPassword() {
-		String currentPass = JOptionPane.showInputDialog("Current password");
-		String newPass = JOptionPane.showInputDialog("New password");
-		String newPassEq = JOptionPane.showInputDialog("Type new password again");
+		JPasswordField cPass = new JPasswordField();
+		JPasswordField nPass = new JPasswordField();
+		JPasswordField qPass = new JPasswordField();
 		
-		if(newPass.equals(newPassEq))
-			textArea.append("[" + getDate() + "]\tPassword has successfully been changed.\n");
+		int cPassOk = JOptionPane.showConfirmDialog(null, cPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		int nPassOk = JOptionPane.showConfirmDialog(null, nPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		int qPassOk = JOptionPane.showConfirmDialog(null, qPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		
+		if(cPassOk == 0)
+			if(nPassOk == 0)
+				if(qPassOk == 0)
+					if(nPass.getPassword().equals(qPass))
+						textArea.append("[" + getDate() + "]\tPassword has successfully been changed.\n");
 	}
 	
 	private String getDate() {
