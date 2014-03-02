@@ -121,6 +121,30 @@ public class UserDialog extends JComponent {
 				}
             }
         });
+		
+		listUsers.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                listUsers();
+            }
+        });
+		
+		createUser.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createUser();
+            }
+        });
+		
+		deleteUser.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteUser(Integer.parseInt(JOptionPane.showInputDialog("Choose ID")));
+            }
+        });
+		
+		newPassword.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                newPassword();
+            }
+        });
 	}
 
 	private void userLogin() throws DALException {
@@ -138,8 +162,34 @@ public class UserDialog extends JComponent {
 			cprSecond.setEnabled(false);
 			pass.setEnabled(false);
 			
-			textArea.append("[<b>" + getDate() + "</b>]\tLogged in as " + opr.getOperator(cprNr) + "\n");
+			textArea.append("[" + getDate() + "]\tLogged in as " + opr.getOperator(cprNr) + "\n");
 		}
+	}
+	
+	private void listUsers() {
+		textArea.append("Fix liste\n");
+	}
+	
+	private void createUser() {
+		String name = JOptionPane.showInputDialog("Name");
+		String cpr = JOptionPane.showInputDialog("CPR");
+		String password = JOptionPane.showInputDialog("Password");
+		
+		textArea.append("[" + getDate() + "]\t " + name + " - " + cpr + " - " + password + "\n");
+	}
+	
+	private void deleteUser(int id) {
+		if(JOptionPane.showConfirmDialog(null, "Are you sure?") == 0)
+			textArea.append("[" + getDate() + "]\tDeleted user with id: " + id + "\n");
+	}
+	
+	private void newPassword() {
+		String currentPass = JOptionPane.showInputDialog("Current password");
+		String newPass = JOptionPane.showInputDialog("New password");
+		String newPassEq = JOptionPane.showInputDialog("Type new password again");
+		
+		if(newPass.equals(newPassEq))
+			textArea.append("[" + getDate() + "]\tPassword has successfully been changed.\n");
 	}
 	
 	private String getDate() {
