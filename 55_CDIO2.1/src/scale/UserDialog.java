@@ -16,7 +16,8 @@ public class UserDialog extends JComponent {
 	
 	private JLabel userName;
 	private JLabel userPass;
-	private JTextField name;
+	private JTextField cprFirst;
+	private JTextField cprSecond;
 	private JPasswordField pass;
 	private JButton userLogin;
 
@@ -39,10 +40,14 @@ public class UserDialog extends JComponent {
 		ctrlPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#d5dfe5")), "Login"));
 		ctrlPanel.setBackground(Color.white);
 		
-		userName = new JLabel("Username");
+		userName = new JLabel("CPR");
 		userPass = new JLabel("Password");
-		name = new JTextField(10);
+		cprFirst = new JTextField(4);
+		cprSecond = new JTextField(3);
 		pass = new JPasswordField(10);
+		
+		JLabel cprSep = new JLabel("-");
+		cprSep.setPreferredSize(new Dimension(5,18));
 		
 		userLogin = new JButton("Login");
 		
@@ -51,11 +56,13 @@ public class UserDialog extends JComponent {
 		y.setForeground(Color.decode("#d5dfe5"));
 		
 		ctrlPanel.add(userName);
-		ctrlPanel.add(name);
+		ctrlPanel.add(cprFirst);
+		ctrlPanel.add(cprSep);
+		ctrlPanel.add(cprSecond);
 		ctrlPanel.add(y, "span 1 2");
 		ctrlPanel.add(userLogin, "wrap");
 		ctrlPanel.add(userPass);
-		ctrlPanel.add(pass);
+		ctrlPanel.add(pass, "span 1 6");
 		
 		userPanel.add(ctrlPanel);
 		
@@ -69,6 +76,9 @@ public class UserDialog extends JComponent {
 	}
 
 	private void userLogin() {
-		tab.setEnabledAt(1, true);
+		String cprNr = cprFirst.getText() + "-" + cprSecond.getText();
+		
+		if(opr.tryLogin(cprNr, pass.getPassword()))
+			tab.setEnabledAt(1, true);
 	}
 }

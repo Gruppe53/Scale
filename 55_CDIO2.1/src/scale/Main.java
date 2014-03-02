@@ -31,11 +31,6 @@ public class Main extends JComponent {
 		tab = new JTabbedPane();
 		tab.setOpaque(true);
 		
-		tab.addTab("Userpanel", uDialog);
-		tab.addTab("Scale Console", sDialog);
-		
-		//tab.setEnabledAt(1, false);
-		
 		// Instantiate objects
 		con = new ScaleConnection();
 		scale = new Scale(con);
@@ -44,6 +39,11 @@ public class Main extends JComponent {
 		oprDTO = new OperatorDTO();
 		oprDAO = new OperatorDAO(oprDTO);
 		uDialog = new UserDialog(oprDAO, tab);
+		
+		tab.addTab("Userpanel", uDialog);
+		tab.addTab("Scale Console", sDialog);
+		
+		tab.setEnabledAt(1, false);
 		
 		add(tab);
 	}

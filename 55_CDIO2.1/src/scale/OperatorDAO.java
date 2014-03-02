@@ -1,6 +1,8 @@
 package scale;
 
-import java.util.ArrayList;
+import java.util.*;
+
+import scale.OperatorDTO.Operator;
 
 public class OperatorDAO implements IOperatorDAO {
 	
@@ -11,25 +13,24 @@ public class OperatorDAO implements IOperatorDAO {
 	}
 
 	@Override
-	public OperatorDTO getOperatoer(int oprId) throws DALException {
+	public OperatorDTO getOperator(int oprId) throws DALException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<OperatorDTO> getOperatorList() throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Operator> getOperatorList() throws DALException {
+		return opr.getOprList();
 	}
 
 	@Override
-	public void createOperatoer(OperatorDTO opr) throws DALException {
+	public void createOperator(OperatorDTO opr) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateOperatoer(OperatorDTO opr) throws DALException {
+	public void updateOperator(OperatorDTO opr) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -43,5 +44,12 @@ public class OperatorDAO implements IOperatorDAO {
 //		}
 		
 		return ini;
+	}
+
+	@Override
+	public boolean tryLogin(String cpr, char[] password) {
+		if(Arrays.equals(opr.getPassword(cpr).toCharArray(), password))
+			return true;
+		return false;
 	}
 }

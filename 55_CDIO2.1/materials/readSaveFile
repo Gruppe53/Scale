@@ -1,0 +1,35 @@
+//	public void createOprList() {
+//		try {
+//			FileInputStream oprList = new FileInputStream("materials/opr.list");
+//			ObjectInputStream read = new ObjectInputStream(oprList);
+//			
+//			do {
+//				oprs.add((Operator) read.readObject());
+//			}
+//			while(read != null);
+//			
+//			read.close();
+//		}
+//		catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//		catch(ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	public void createUser(String name, String cpr, String password) {
+//		try {
+//			FileOutputStream oprs = new FileOutputStream("materials/opr.list");
+//			ObjectOutputStream save = new ObjectOutputStream(oprs);
+//			
+//			save.writeObject(new Operator(name, cpr, password));
+//			
+//			save.close();
+//		}
+//		catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		this.createOprList();
+//	}
