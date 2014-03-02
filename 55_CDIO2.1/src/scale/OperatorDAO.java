@@ -5,8 +5,8 @@ import java.util.*;
 import scale.OperatorDTO.Operator;
 
 public class OperatorDAO implements IOperatorDAO {
-	
 	private IOperatorDTO opr;
+	private String active;
 
 	public OperatorDAO(IOperatorDTO opr) {
 		this.opr = opr;
@@ -48,7 +48,8 @@ public class OperatorDAO implements IOperatorDAO {
 	@Override
 	public boolean tryLogin(String cpr, char[] password) {
 		if(Arrays.equals(opr.getPassword(cpr).toCharArray(), password)) {
-			cpr = null;
+			active = cpr;
+			password = null;
 			
 			return true;
 		}

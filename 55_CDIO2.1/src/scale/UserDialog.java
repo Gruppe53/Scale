@@ -138,7 +138,7 @@ public class UserDialog extends JComponent {
 			cprSecond.setEnabled(false);
 			pass.setEnabled(false);
 			
-			textArea.append("[" + getDate() + "]\tLogged in as " + opr.getOperator(cprNr) + "\n");
+			textArea.append("[<b>" + getDate() + "</b>]\tLogged in as " + opr.getOperator(cprNr) + "\n");
 		}
 	}
 	
