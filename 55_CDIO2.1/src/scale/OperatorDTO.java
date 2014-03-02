@@ -1,6 +1,5 @@
 package scale;
 
-import java.io.*;
 import java.util.*;
 
 public class OperatorDTO implements IOperatorDTO {
@@ -22,7 +21,7 @@ public class OperatorDTO implements IOperatorDTO {
 		
 		public Operator(String name, String cpr, String password) {
 			super();
-			this.id = (10 + oprs.size()); // Need to find largest id instead - this will create multiple id's when using "delete user" method
+			this.id = oprs.get(oprs.size() - 1).id + 1;
 			this.name = name;
 			this.cpr = cpr;
 			this.password = password;
@@ -34,6 +33,15 @@ public class OperatorDTO implements IOperatorDTO {
 		oprs.add(new Operator(11, "Leo Jiahua", "654123-7890", "02324it!"));
 		oprs.add(new Operator(12, "Malte Magnussen", "123456-0987", "02324it!"));
 		oprs.add(new Operator(1, "God", "1-1", "gud"));
+	}
+	
+	public boolean createOperator(String name, String cpr, char[] password) {
+		oprs.add(new Operator(name, cpr, new String(password)));
+		
+		if(getName(cpr) != null)
+			return true;
+		
+		return false;
 	}
 	
 	public ArrayList<Operator> getOprList() {
@@ -72,5 +80,21 @@ public class OperatorDTO implements IOperatorDTO {
 		for (int i = 0; i < oprs.size(); i++)
 			if(oprs.get(i).cpr.equals(cpr))
 				oprs.get(i).password = password;
+	}
+	
+	@Override
+	public boolean deleteOperator(String cpr) {
+		if(oprs.remove(getIndex(cpr)) != null)
+			return true;
+		
+		return false;
+	}
+	
+	private int getIndex(String cpr) {
+		for(int i = 0; i < oprs.size(); i++)
+			if(oprs.get(i).cpr.equals(cpr))
+				return i;
+		
+		return -1;
 	}
 }

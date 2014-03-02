@@ -23,18 +23,38 @@ public class OperatorDAO implements IOperatorDAO {
 	}
 
 	@Override
-	public void createOperator(OperatorDTO opr) throws DALException {
-		opr.getName(active);
+	public boolean createOperator(String name, String cpr, char[] password) throws DALException {
+		if(opr.createOperator(name, cpr, password))
+			return true;
+		
+		return false;
 	}
 
 	@Override
-	public void updateOperator(OperatorDTO opr) throws DALException {
-		opr.setPassword(active, "tjir");
+	public boolean updateOperator(char[] password) throws DALException {
+		if(Arrays.equals(password, opr.getPassword(active).toCharArray())) {
+			opr.setPassword(active, new String(password));
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean deleteOperator(String cpr) {
+		if(opr.getOprId(cpr) != -1)
+			if(opr.deleteOperator(cpr))
+				return true;
+		
+		return false;
 	}
 	
 	@Override
-	public String getInitials(OperatorDTO opr) {
+	public String getInitials(String cpr) {
 		String ini = "";
+		
+		for(String s : opr.getName(cpr).split(" "))
+			ini += s.substring(0,1).toLowerCase();
 		
 		return ini;
 	}

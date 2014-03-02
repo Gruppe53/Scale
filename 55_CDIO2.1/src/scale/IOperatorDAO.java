@@ -7,8 +7,8 @@ import scale.OperatorDTO.Operator;
 public interface IOperatorDAO {
 	String getOperator(String cpr) throws DALException;
 	ArrayList<Operator> getOperatorList() throws DALException;
-	void createOperator(OperatorDTO opr) throws DALException;
-	void updateOperator(OperatorDTO opr) throws DALException;
-	String getInitials(OperatorDTO opr);
+	boolean createOperator(String name, String cpr, char[] password) throws DALException;
+	boolean updateOperator(char[] password) throws DALException;
+	String getInitials(String cpr);
 	boolean tryLogin(String cprNr, char[] password);
 }
