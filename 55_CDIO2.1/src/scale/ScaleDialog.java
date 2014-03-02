@@ -84,7 +84,7 @@ public class ScaleDialog extends JComponent {
 		conPanel.add(y, "span 1 2");
 		conPanel.add(conButton, "wrap");
 		conPanel.add(portLabel);
-		conPanel.add(port, "span 7");
+		conPanel.add(port, "span 7 1");
 		conPanel.add(disButton, "wrap");
 		
 		// Button panel

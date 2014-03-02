@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class UserDialog extends JComponent {
 	private JTextField cprSecond;
 	private JPasswordField pass;
 	private JButton userLogin;
+	private JButton userLogout;
 	
 	private JButton listUsers;
 	private JButton createUser;
@@ -56,12 +58,15 @@ public class UserDialog extends JComponent {
 		userPass = new JLabel("Password");
 		cprFirst = new JTextField(4);
 		cprSecond = new JTextField(3);
-		pass = new JPasswordField(10);
+		pass = new JPasswordField();
+		pass.setPreferredSize(new Dimension(98,20));
 		
 		JLabel cprSep = new JLabel("-");
 		cprSep.setPreferredSize(new Dimension(5,18));
 		
 		userLogin = new JButton("Login");
+		userLogout = new JButton("Logout");
+		userLogout.setEnabled(false);
 		
 		JSeparator y = new JSeparator(SwingConstants.VERTICAL);
 		y.setPreferredSize(new Dimension(1,60));
@@ -74,7 +79,8 @@ public class UserDialog extends JComponent {
 		ctrlPanel.add(y, "span 1 2");
 		ctrlPanel.add(userLogin, "wrap");
 		ctrlPanel.add(userPass);
-		ctrlPanel.add(pass, "span 1 6");
+		ctrlPanel.add(pass, "span 3 1");
+		ctrlPanel.add(userLogout, "wrap");
 		
 		cmdPanel = new JPanel(new MigLayout());
 		cmdPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#d5dfe5")), "User commands"));
@@ -104,7 +110,7 @@ public class UserDialog extends JComponent {
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setEditable(false);
-		textArea.append("[" + getDate() + "]\tWelcome...\n");
+		textArea.append("[" + getDate() + "] Welcome...\n");
 		
 		userPanel.add(ctrlPanel, "wrap");
 		userPanel.add(cmdPanel, "wrap");
@@ -114,12 +120,13 @@ public class UserDialog extends JComponent {
 		
 		userLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-					userLogin();
-				}
-                catch (DALException e1) {
-					e1.printStackTrace();
-				}
+            	userLogin();
+            }
+        });
+		
+		userLogout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	userLogout();
             }
         });
 		
@@ -148,12 +155,14 @@ public class UserDialog extends JComponent {
         });
 	}
 
-	private void userLogin() throws DALException {
+	private void userLogin() {
 		String cprNr = cprFirst.getText() + "-" + cprSecond.getText();
 		
 		if(opr.tryLogin(cprNr, pass.getPassword())) {
 			tab.setEnabledAt(1, true);
 			
+			userLogout.setEnabled(true);
+			listUsers.setEnabled(true);
 			createUser.setEnabled(true);
 			deleteUser.setEnabled(true);
 			newPassword.setEnabled(true);
@@ -163,12 +172,49 @@ public class UserDialog extends JComponent {
 			cprSecond.setEnabled(false);
 			pass.setEnabled(false);
 			
-			textArea.append("[" + getDate() + "]\tLogged in as " + opr.getOperator(cprNr) + "\n");
+			try {
+				textArea.append("[" + getDate() + "] Logged in as " + opr.getOperator(cprNr) + "\n");
+			}
+			catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void userLogout() {
+		if(opr.getActive()) {
+			tab.setEnabledAt(1, false);
+			
+			userLogout.setEnabled(false);
+			listUsers.setEnabled(false);
+			createUser.setEnabled(false);
+			deleteUser.setEnabled(false);
+			newPassword.setEnabled(false);
+			
+			userLogin.setEnabled(true);
+			cprFirst.setEnabled(true);
+			cprSecond.setEnabled(true);
+			pass.setEnabled(true);
+			
+			opr.userLogout();
+			
+			textArea.append("[" + getDate() + "] Logged out.\n");
 		}
 	}
 	
 	private void listUsers() {
-		textArea.append("Fix liste\n");
+		try {
+			ArrayList<String> str = opr.getOperatorList();
+			
+			textArea.append("[" + getDate() + "] List of users:\n");
+			
+			for(int i = 0; i < str.size(); i++)
+				textArea.append("[" + getDate() + "] " + str.get(i) + "\n");
+			
+		}
+		catch (DALException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void createUser() {
@@ -181,13 +227,21 @@ public class UserDialog extends JComponent {
 		JOptionPane.showConfirmDialog(null, nPass, "Enter password", 0);
 		JOptionPane.showConfirmDialog(null, qPass, "Enter password again", 0);
 
-		if(Arrays.equals(nPass.getPassword(), qPass.getPassword()))
-			textArea.append("[" + getDate() + "]\t" + name + " - " + cpr + " - " + nPass.getPassword().toString() + "\n");
+		if(Arrays.equals(nPass.getPassword(), qPass.getPassword())) {
+			try {
+				if(opr.createOperator(name, cpr, nPass.getPassword()))
+					textArea.append("[" + getDate() + "] User with name: " + name + " has been added.\n");
+			}
+			catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private void deleteUser(int id) {
 		if(JOptionPane.showConfirmDialog(null, "Are you sure?") == 0)
-			textArea.append("[" + getDate() + "]\tDeleted user with id: " + id + "\n");
+			if(opr.deleteOperator(id))
+				textArea.append("[" + getDate() + "] Deleted user with id: " + id + "\n");
 	}
 	
 	private void newPassword() {
@@ -199,8 +253,16 @@ public class UserDialog extends JComponent {
 		JOptionPane.showConfirmDialog(null, nPass, "Enter new password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		JOptionPane.showConfirmDialog(null, qPass, "Enter new password again", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
-		if(Arrays.equals(nPass.getPassword(), qPass.getPassword()))
-			textArea.append("[" + getDate() + "]\tPassword has successfully been changed.\n");
+		if(Arrays.equals(nPass.getPassword(), qPass.getPassword())) {
+			try {
+				if(opr.updateOperator(cPass.getPassword(), nPass.getPassword())) {
+					textArea.append("[" + getDate() + "] Password has successfully been changed.\n");
+				}
+			}
+			catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private String getDate() {

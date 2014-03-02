@@ -2,8 +2,6 @@ package scale;
 
 import java.util.*;
 
-import scale.OperatorDTO.Operator;
-
 public class OperatorDAO implements IOperatorDAO {
 	private IOperatorDTO opr;
 	private String active;
@@ -14,12 +12,15 @@ public class OperatorDAO implements IOperatorDAO {
 
 	@Override
 	public String getOperator(String cpr) throws DALException {
-		return opr.getName(cpr) + ", CPR: " + opr.getCpr(cpr) + ", ID: " + opr.getOprId(cpr);
+		return opr.getName(cpr) + ", CPR: " + opr.getCpr(opr.getOprId(cpr)) + ", ID: " + opr.getOprId(cpr);
 	}
 
 	@Override
-	public ArrayList<Operator> getOperatorList() throws DALException {
-		return opr.getOprList();
+	public ArrayList<String> getOperatorList() throws DALException {
+		if(opr.getOprList() != null)
+			return opr.getOprList();
+		
+		return null;
 	}
 
 	@Override
@@ -31,9 +32,9 @@ public class OperatorDAO implements IOperatorDAO {
 	}
 
 	@Override
-	public boolean updateOperator(char[] password) throws DALException {
-		if(Arrays.equals(password, opr.getPassword(active).toCharArray())) {
-			opr.setPassword(active, new String(password));
+	public boolean updateOperator(char[] cPass, char[] nPass) throws DALException {
+		if(Arrays.equals(cPass, opr.getPassword(active).toCharArray())) {
+			opr.setPassword(active, new String(nPass));
 			
 			return true;
 		}
@@ -41,12 +42,9 @@ public class OperatorDAO implements IOperatorDAO {
 		return false;
 	}
 	
-	public boolean deleteOperator(String cpr) {
-		if(opr.getOprId(cpr) != -1)
-			if(opr.deleteOperator(cpr))
-				return true;
-		
-		return false;
+	@Override
+	public boolean deleteOperator(int id) {
+		return opr.deleteOperator(id);
 	}
 	
 	@Override
@@ -69,5 +67,18 @@ public class OperatorDAO implements IOperatorDAO {
 		}
 			
 		return false;
+	}
+
+	@Override
+	public boolean getActive() {
+		if(active != null)
+			return true;
+		
+		return false;
+	}
+
+	@Override
+	public void userLogout() {
+		active = null;
 	}
 }

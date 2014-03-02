@@ -29,10 +29,10 @@ public class OperatorDTO implements IOperatorDTO {
 	}
 	
 	public OperatorDTO() {
+		oprs.add(new Operator(1, "God", "1-1", "gud"));
 		oprs.add(new Operator(10, "Lars Peter Jensen", "123456-7890", "02324it!"));
 		oprs.add(new Operator(11, "Leo Jiahua", "654123-7890", "02324it!"));
 		oprs.add(new Operator(12, "Malte Magnussen", "123456-0987", "02324it!"));
-		oprs.add(new Operator(1, "God", "1-1", "gud"));
 	}
 	
 	public boolean createOperator(String name, String cpr, char[] password) {
@@ -44,8 +44,16 @@ public class OperatorDTO implements IOperatorDTO {
 		return false;
 	}
 	
-	public ArrayList<Operator> getOprList() {
-		return oprs;
+	public ArrayList<String> getOprList() {
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for(int i = 0; i < oprs.size(); i++)
+			list.add(oprs.get(i).id + ". Name: " + oprs.get(i).name + "\tCPR: " + oprs.get(i).cpr);
+		
+		if(list.isEmpty())
+			return null;
+		
+		return list;
 	}
 	
 	public String getName(String cpr) {
@@ -55,9 +63,9 @@ public class OperatorDTO implements IOperatorDTO {
 		return null;
 	}
 	
-	public String getCpr(String cpr) {
+	public String getCpr(int id) {
 		for (int i = 0; i < oprs.size(); i++)
-			if(oprs.get(i).cpr.equals(cpr))
+			if(oprs.get(i).id == id)
 				return oprs.get(i).cpr;
 		return null;
 	}
@@ -83,8 +91,8 @@ public class OperatorDTO implements IOperatorDTO {
 	}
 	
 	@Override
-	public boolean deleteOperator(String cpr) {
-		if(oprs.remove(getIndex(cpr)) != null)
+	public boolean deleteOperator(int id) {
+		if(oprs.remove(getIndex(getCpr(id))) != null)
 			return true;
 		
 		return false;
