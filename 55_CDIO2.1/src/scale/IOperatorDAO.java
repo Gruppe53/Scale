@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import scale.OperatorDTO.Operator;
 
 public interface IOperatorDAO {
-	OperatorDTO getOperator(int oprId) throws DALException;
+	String getOperator(String cpr) throws DALException;
 	ArrayList<Operator> getOperatorList() throws DALException;
 	void createOperator(OperatorDTO opr) throws DALException;
 	void updateOperator(OperatorDTO opr) throws DALException;

@@ -3,6 +3,8 @@ package scale;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -13,6 +15,8 @@ public class UserDialog extends JComponent {
 	
 	private JPanel userPanel;
 	private JPanel ctrlPanel;
+	private JPanel cmdPanel;
+	private JScrollPane txtPanel;
 	
 	private JLabel userName;
 	private JLabel userPass;
@@ -20,16 +24,23 @@ public class UserDialog extends JComponent {
 	private JTextField cprSecond;
 	private JPasswordField pass;
 	private JButton userLogin;
+	
+	private JButton listUsers;
+	private JButton createUser;
+	private JButton deleteUser;
+	private JButton newPassword;
 
 	private IOperatorDAO opr;
 	
 	private JTabbedPane tab;
 	
+	private JTextArea textArea = new JTextArea();;
+	
 	public UserDialog(IOperatorDAO opr, JTabbedPane tab) {
 		this.opr = opr;
 		this.tab = tab;
 		
-		setLayout(new FlowLayout());
+		setLayout(new MigLayout());
 		
 		userPanel = new JPanel(new MigLayout());
 		userPanel.setBorder(BorderFactory.createBevelBorder(1, Color.decode("#ffffff"), Color.decode("#898c95"), Color.decode("#898c95"), Color.decode("#f0f0f0")));
@@ -64,21 +75,74 @@ public class UserDialog extends JComponent {
 		ctrlPanel.add(userPass);
 		ctrlPanel.add(pass, "span 1 6");
 		
-		userPanel.add(ctrlPanel);
+		cmdPanel = new JPanel(new MigLayout());
+		cmdPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#d5dfe5")), "User commands"));
+		cmdPanel.setBackground(Color.white);
+		cmdPanel.setPreferredSize(new Dimension(400,60));
+		
+		listUsers = new JButton("List");
+		listUsers.setEnabled(false);
+		createUser = new JButton("Create");
+		createUser.setEnabled(false);
+		deleteUser = new JButton("Delete");
+		deleteUser.setEnabled(false);
+		newPassword = new JButton("New pass");
+		newPassword.setEnabled(false);
+		
+		cmdPanel.add(listUsers);
+		cmdPanel.add(createUser);
+		cmdPanel.add(deleteUser);
+		cmdPanel.add(newPassword);
+		
+		txtPanel = new JScrollPane(textArea);
+		txtPanel.setBackground(Color.white);
+		txtPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#d5dfe5")), "Console"));
+		txtPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		txtPanel.setPreferredSize(new Dimension(400, 200));
+		
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setEditable(false);
+		textArea.append("[" + getDate() + "]\tWelcome...\n");
+		
+		userPanel.add(ctrlPanel, "wrap");
+		userPanel.add(cmdPanel, "wrap");
+		userPanel.add(txtPanel);
 		
 		add(userPanel);
 		
 		userLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                userLogin();
+                try {
+					userLogin();
+				}
+                catch (DALException e1) {
+					e1.printStackTrace();
+				}
             }
         });
 	}
 
-	private void userLogin() {
+	private void userLogin() throws DALException {
 		String cprNr = cprFirst.getText() + "-" + cprSecond.getText();
 		
-		if(opr.tryLogin(cprNr, pass.getPassword()))
+		if(opr.tryLogin(cprNr, pass.getPassword())) {
 			tab.setEnabledAt(1, true);
+			
+			createUser.setEnabled(true);
+			deleteUser.setEnabled(true);
+			newPassword.setEnabled(true);
+			
+			userLogin.setEnabled(false);
+			cprFirst.setEnabled(false);
+			cprSecond.setEnabled(false);
+			pass.setEnabled(false);
+			
+			textArea.append("[" + getDate() + "]\tLogged in as " + opr.getOperator(cprNr) + "\n");
+		}
+	}
+	
+	private String getDate() {
+		return new SimpleDateFormat("HH:mm:ss").format(new Date());
 	}
 }

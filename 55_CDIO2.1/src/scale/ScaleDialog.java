@@ -120,8 +120,8 @@ public class ScaleDialog extends JComponent {
 		// Add to Main panel
 		scaPanel.add(conPanel);
 		scaPanel.add(stsPanel, "wrap");
-		scaPanel.add(cmdPanel, "span 2, wrap");
-		scaPanel.add(txtPanel, "span 2");
+		scaPanel.add(cmdPanel, "span 2 1, wrap");
+		scaPanel.add(txtPanel, "span 2 1");
 		
 		// Button events
 		conButton.addActionListener(new ActionListener() {

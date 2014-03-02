@@ -13,9 +13,8 @@ public class OperatorDAO implements IOperatorDAO {
 	}
 
 	@Override
-	public OperatorDTO getOperator(int oprId) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public String getOperator(String cpr) throws DALException {
+		return opr.getName(cpr) + ", CPR: " + opr.getCpr(cpr) + ", ID: " + opr.getOprId(cpr);
 	}
 
 	@Override
@@ -48,8 +47,12 @@ public class OperatorDAO implements IOperatorDAO {
 
 	@Override
 	public boolean tryLogin(String cpr, char[] password) {
-		if(Arrays.equals(opr.getPassword(cpr).toCharArray(), password))
+		if(Arrays.equals(opr.getPassword(cpr).toCharArray(), password)) {
+			cpr = null;
+			
 			return true;
+		}
+			
 		return false;
 	}
 }

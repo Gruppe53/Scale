@@ -22,7 +22,7 @@ public class OperatorDTO implements IOperatorDTO {
 		
 		public Operator(String name, String cpr, String password) {
 			super();
-			this.id = (10 + oprs.size() + 1);
+			this.id = (10 + oprs.size());
 			this.name = name;
 			this.cpr = cpr;
 			this.password = password;
@@ -51,6 +51,13 @@ public class OperatorDTO implements IOperatorDTO {
 			if(oprs.get(i).cpr.equals(cpr))
 				return oprs.get(i).cpr;
 		return null;
+	}
+	
+	public int getOprId(String cpr) {
+		for (int i = 0; i < oprs.size(); i++)
+			if(oprs.get(i).cpr.equals(cpr))
+				return oprs.get(i).id;
+		return -1;
 	}
 	
 	public String getPassword(String cpr) {
