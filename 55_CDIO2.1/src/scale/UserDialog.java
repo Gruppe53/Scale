@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.*;
@@ -172,18 +173,16 @@ public class UserDialog extends JComponent {
 	
 	private void createUser() {
 		String name = JOptionPane.showInputDialog("Name");
-		String cpr = JOptionPane.showInputDialog("CPR");
+		String cpr = JOptionPane.showInputDialog("CPR (ddmmyy-MRRG");
 		
 		JPasswordField nPass = new JPasswordField();
 		JPasswordField qPass = new JPasswordField();
 		
-		int nPassOk = JOptionPane.showConfirmDialog(null, nPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		int qPassOk = JOptionPane.showConfirmDialog(null, qPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		
-		if(nPassOk == 0)
-			if(qPassOk == 0)
-				if(nPass.getPassword().equals(qPass.getPassword()))
-					textArea.append("[" + getDate() + "]\t " + name + " - " + cpr + " - " + nPass.getPassword() + "\n");
+		JOptionPane.showConfirmDialog(null, nPass, "Enter password", 0);
+		JOptionPane.showConfirmDialog(null, qPass, "Enter password again", 0);
+
+		if(Arrays.equals(nPass.getPassword(), qPass.getPassword()))
+			textArea.append("[" + getDate() + "]\t" + name + " - " + cpr + " - " + nPass.getPassword().toString() + "\n");
 	}
 	
 	private void deleteUser(int id) {
@@ -196,15 +195,12 @@ public class UserDialog extends JComponent {
 		JPasswordField nPass = new JPasswordField();
 		JPasswordField qPass = new JPasswordField();
 		
-		int cPassOk = JOptionPane.showConfirmDialog(null, cPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		int nPassOk = JOptionPane.showConfirmDialog(null, nPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		int qPassOk = JOptionPane.showConfirmDialog(null, qPass, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showConfirmDialog(null, cPass, "Enter current password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showConfirmDialog(null, nPass, "Enter new password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showConfirmDialog(null, qPass, "Enter new password again", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
-		if(cPassOk == 0)
-			if(nPassOk == 0)
-				if(qPassOk == 0)
-					if(nPass.getPassword().equals(qPass))
-						textArea.append("[" + getDate() + "]\tPassword has successfully been changed.\n");
+		if(Arrays.equals(nPass.getPassword(), qPass.getPassword()))
+			textArea.append("[" + getDate() + "]\tPassword has successfully been changed.\n");
 	}
 	
 	private String getDate() {
