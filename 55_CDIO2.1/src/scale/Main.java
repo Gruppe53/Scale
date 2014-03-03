@@ -4,6 +4,11 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import users.IOperatorDAO;
+import users.IOperatorDTO;
+import users.OperatorDAO;
+import users.OperatorDTO;
+import users.UserDialog;
 import net.miginfocom.swing.MigLayout;
 
 public class Main extends JComponent {

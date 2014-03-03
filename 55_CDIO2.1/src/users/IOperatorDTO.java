@@ -1,4 +1,4 @@
-package scale;
+package users;
 
 import java.util.ArrayList;
 
