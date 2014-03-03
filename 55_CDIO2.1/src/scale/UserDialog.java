@@ -219,7 +219,7 @@ public class UserDialog extends JComponent {
 	
 	private void createUser() {
 		String name = JOptionPane.showInputDialog("Name");
-		String cpr = JOptionPane.showInputDialog("CPR (ddmmyy-MRRG");
+		String cpr = JOptionPane.showInputDialog("CPR (ddmmyy-MRRG)");
 		
 		JPasswordField nPass = new JPasswordField();
 		JPasswordField qPass = new JPasswordField();

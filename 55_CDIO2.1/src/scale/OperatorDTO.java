@@ -29,7 +29,6 @@ public class OperatorDTO implements IOperatorDTO {
 	}
 	
 	public OperatorDTO() {
-		oprs.add(new Operator(1, "God", "1-1", "gud"));
 		oprs.add(new Operator(10, "Lars Peter Jensen", "123456-7890", "02324it!"));
 		oprs.add(new Operator(11, "Leo Jiahua", "654123-7890", "02324it!"));
 		oprs.add(new Operator(12, "Malte Magnussen", "123456-0987", "02324it!"));
@@ -38,7 +37,7 @@ public class OperatorDTO implements IOperatorDTO {
 	public boolean createOperator(String name, String cpr, char[] password) {
 		oprs.add(new Operator(name, cpr, new String(password)));
 		
-		if(getName(cpr) != null)
+		if(getName(cpr).equals(name))
 			return true;
 		
 		return false;
