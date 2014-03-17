@@ -24,10 +24,6 @@ public class Main extends JComponent {
 	private IOperatorDAO oprDAO;
 	private UserDialog  uDialog;
 	
-	private ISimulatorConnection simCon;
-	private ISimulator sim;
-	private SimulatorDialog simDialog;
-	
 	public Main() {
 		// Set layout manager
 		setLayout(new MigLayout());
@@ -47,13 +43,8 @@ public class Main extends JComponent {
 		oprDAO = new OperatorDAO(oprDTO);
 		uDialog = new UserDialog(oprDAO, tab);
 		
-		simCon = new SimulatorConnection();
-		sim = new Simulator();
-		simDialog = new SimulatorDialog(sim);
-		
 		tab.addTab("Userpanel", uDialog);
 		tab.addTab("Scale Console", sDialog);
-		tab.addTab("Simulator", simDialog);
 		
 		tab.setEnabledAt(1, false);
 		

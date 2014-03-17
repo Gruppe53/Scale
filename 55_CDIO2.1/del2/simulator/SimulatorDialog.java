@@ -14,9 +14,9 @@ public class SimulatorDialog extends JComponent {
 	private JTextArea textArea = new JTextArea();
 	private JScrollPane txtPanel = new JScrollPane(textArea);
 	
-	private ISimulator sim;
+	private ISimulatorDAO sim;
 	
-	public SimulatorDialog(ISimulator sim) {
+	public SimulatorDialog(ISimulatorDAO sim) {
 		this.sim = sim;
 		
 		setLayout(new MigLayout());
