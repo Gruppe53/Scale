@@ -1,5 +1,5 @@
 package simulator;
 
-public class SimulatorDLO {
+public class SimulatorDLO implements ISimulatorDLO {
 
 }

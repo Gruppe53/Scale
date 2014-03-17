@@ -9,7 +9,7 @@ import users.*;
 import simulator.*;
 import net.miginfocom.swing.MigLayout;
 
-public class Main extends JComponent {
+public class ScaleMain extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private static JFrame scaleFrame;
 	private static JComponent newContentPane;
@@ -24,7 +24,7 @@ public class Main extends JComponent {
 	private IOperatorDAO oprDAO;
 	private UserDialog  uDialog;
 	
-	public Main() {
+	public ScaleMain() {
 		// Set layout manager
 		setLayout(new MigLayout());
 		
@@ -60,7 +60,7 @@ public class Main extends JComponent {
 		scaleFrame.setResizable(false);
 
         // Create the content pane
-        newContentPane = new Main();
+        newContentPane = new ScaleMain();
         newContentPane.setOpaque(true);
         scaleFrame.setContentPane(newContentPane);
 
