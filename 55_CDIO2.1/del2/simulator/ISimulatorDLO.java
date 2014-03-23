@@ -5,4 +5,6 @@ public interface ISimulatorDLO {
 	int getTara();
 	void setBrutto(int brutto);
 	void setTara(int tara);
+	String getDisplayText();
+	void setDisplayText(String displayText);
 }
