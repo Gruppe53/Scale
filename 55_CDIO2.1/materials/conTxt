@@ -1,0 +1,77 @@
+package simulator;
+
+import java.io.*;
+import java.net.*;
+
+public class SimulatorConnection extends Thread {
+	private ServerSocket srvSocket;
+	private Socket cltSocket;
+	private DataInputStream in;
+	private DataOutputStream out;
+	private String port;
+	
+	public SimulatorConnection(String port) {
+		this.port = port;
+		
+		try {
+			this.srvSocket = new ServerSocket(Integer.parseInt(port));
+			this.srvSocket.setSoTimeout(12000);
+		}
+		catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void run() {
+		while(true) {
+			try {
+				System.out.println("Waiting for client on port " + srvSocket.getLocalPort() + "...");
+				
+				cltSocket = srvSocket.accept();
+				
+				System.out.println("Just connected to " + cltSocket.getRemoteSocketAddress());
+				
+				in = new DataInputStream(cltSocket.getInputStream());
+				out = new DataOutputStream(cltSocket.getOutputStream());
+				
+				out.writeUTF("Mettler Simulator v. something...");
+			}
+			catch(SocketTimeoutException s) {
+				System.out.println("Socket time out...");
+				break;
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+				break;
+			}
+		}
+	}
+	
+	public boolean disconnect() {
+		try {
+			cltSocket.close();
+			
+			return true;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public void recieveInput(String input) {
+		// TODO
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public String getCltAdr() {
+		if(cltSocket.isConnected())
+			return cltSocket.getInetAddress().getHostAddress();
+		
+		return "No client connected.";
+	}
+}

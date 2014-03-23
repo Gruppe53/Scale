@@ -1,0 +1,6 @@
+package simulator;
+
+public interface ISimulatorConnection {
+	String getPort();
+	String getCltAdr();
+}

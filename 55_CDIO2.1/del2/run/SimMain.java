@@ -17,7 +17,6 @@ public class SimMain extends JComponent {
 	private SimulatorDialog simDialog;
 	private ISimulatorDAO simDao;
 	private ISimulatorDLO simDlo;
-	private Thread simCon;
 	
 	public SimMain() {
 		// Set layout manager
@@ -59,10 +58,9 @@ public class SimMain extends JComponent {
     public static void main(String[] args) {
     	// Get command-line arguments
     	if(args.length > 0) {
-	    	for(int i = 0; i < args.length; i++) {
+	    	for(int i = 0; i < args.length; i++)
 	    		if(args[i].equals("-port"))
-	    			port = args[i+1];
-	    	}
+	    			port = args[i + 1];
     	}
     	else {
     		port = "";

@@ -1,14 +1,6 @@
 package simulator;
 
 import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -24,22 +16,16 @@ public class SimulatorDialog extends JComponent {
 	
 	private ISimulatorDAO sim;
 	
-	private ServerSocket srvSocket;
-	private Socket cltSocket;
-	private DataInputStream in;
-	private DataOutputStream out;
-	private String port;
+	private SimServer srv;
 	
 	public SimulatorDialog(ISimulatorDAO sim, String port) {
 		this.sim = sim;
-		this.port = port;
 		
 		setLayout(new MigLayout());
 		
 		simPanel.setBackground(Color.decode("#161616"));
 		simPanel.getLayout();
 		
-		simTxt.setBorder(null);
 		simTxt.setBackground(simPanel.getBackground());
 		simTxt.setForeground(Color.decode("#38ce49"));
 		simTxt.setCaretColor(Color.decode("#38ce49"));
@@ -74,39 +60,5 @@ public class SimulatorDialog extends JComponent {
 		simPanel.add(simScr);
 		
 		add(simPanel);
-	}
-	
-	private String getCltAdress() {
-		if(cltSocket.isConnected())
-			return cltSocket.getInetAddress().getHostAddress();
-		
-		return "No connection established.";
-	}
-
-	private void startSrv() {
-		try {
-			this.srvSocket = new ServerSocket(Integer.parseInt(port));
-		}
-		catch (NumberFormatException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		while(true) {
-			try {
-				System.out.println("Waiting for client on port " + srvSocket.getLocalPort() + "...");
-				
-				cltSocket = srvSocket.accept();
-				
-				System.out.println("Just connected to " + cltSocket.getRemoteSocketAddress());
-				
-				in = new DataInputStream(cltSocket.getInputStream());
-				out = new DataOutputStream(cltSocket.getOutputStream());
-				
-				out.writeUTF("Mettler Simulator v. something...");
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 }
