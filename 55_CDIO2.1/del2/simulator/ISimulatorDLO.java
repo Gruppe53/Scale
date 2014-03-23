@@ -7,4 +7,5 @@ public interface ISimulatorDLO {
 	void setTara(int tara);
 	String getDisplayText();
 	void setDisplayText(String displayText);
+	String getResponse(String input);
 }

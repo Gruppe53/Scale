@@ -34,4 +34,10 @@ public class SimulatorDLO implements ISimulatorDLO {
 	public String getDisplayText() {
 		return displayText;
 	}
+
+	public String getResponse(String input) {
+		// TODO
+		
+		return null;
+	}
 }

@@ -1,9 +1,9 @@
 package simulator;
 
-public class SimulaturDAO implements ISimulatorDAO {
+public class SimulatorDAO implements ISimulatorDAO {
 	private ISimulatorDLO simDlo;
 
-	public SimulaturDAO(ISimulatorDLO simDlo) {
+	public SimulatorDAO(ISimulatorDLO simDlo) {
 		this.simDlo = simDlo;
 	}
 	
@@ -13,5 +13,10 @@ public class SimulaturDAO implements ISimulatorDAO {
 
 	public String getDisplayText() {
 		return simDlo.getDisplayText();
+	}
+
+	@Override
+	public String getResponse(String input) {
+		return simDlo.getResponse(input);
 	}
 }

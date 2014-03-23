@@ -1,6 +1,7 @@
 package simulator;
 
 import java.awt.*;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -20,11 +21,16 @@ public class SimulatorDialog extends JComponent {
 	
 	public SimulatorDialog(ISimulatorDAO sim, String port) {
 		this.sim = sim;
+		try {
+			this.srv = new SimServer(port);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		setLayout(new MigLayout());
 		
 		simPanel.setBackground(Color.decode("#161616"));
-		simPanel.getLayout();
 		
 		simTxt.setBackground(simPanel.getBackground());
 		simTxt.setForeground(Color.decode("#38ce49"));
@@ -58,6 +64,8 @@ public class SimulatorDialog extends JComponent {
 		simScr.setBorder(null);
 		
 		simPanel.add(simScr);
+		
+		srv.start();
 		
 		add(simPanel);
 	}
