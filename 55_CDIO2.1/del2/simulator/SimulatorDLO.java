@@ -1,8 +1,8 @@
 package simulator;
 
 public class SimulatorDLO implements ISimulatorDLO {
-	private int brutto;
-	private int tara;
+	private double brutto;
+	private double tara;
 	private String displayText;
 	
 	public SimulatorDLO() {
@@ -10,34 +10,34 @@ public class SimulatorDLO implements ISimulatorDLO {
 		this.tara = 0;
 		this.displayText = "";
 	}
-
-	public int getBrutto() {
+	
+	@Override
+	public double getBrutto() {
 		return brutto;
 	}
-
-	public void setBrutto(int brutto) {
-		this.brutto = brutto;
-	}
-
-	public int getTara() {
+	
+	@Override
+	public double getTara() {
 		return tara;
 	}
-
-	public void setTara(int tara) {
-		this.tara = tara;
-	}
-
-	public void setDisplayText(String displayText) {
-		this.displayText = displayText;
-	}
 	
+	@Override
 	public String getDisplayText() {
 		return displayText;
 	}
+	
+	@Override
+	public void setBrutto(double brutto) {
+		this.brutto = brutto;
+	}
 
-	public String getResponse(String input) {
-		// TODO
-		
-		return null;
+	@Override
+	public void setTara() {
+		this.tara = this.brutto;
+	}
+	
+	@Override
+	public void setDisplayText(String displayText) {
+		this.displayText = displayText;
 	}
 }

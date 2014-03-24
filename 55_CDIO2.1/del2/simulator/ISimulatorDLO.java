@@ -1,11 +1,10 @@
 package simulator;
 
 public interface ISimulatorDLO {
-	int getBrutto();
-	int getTara();
-	void setBrutto(int brutto);
-	void setTara(int tara);
+	double getBrutto();
+	double getTara();
+	void setBrutto(double brutto);
+	void setTara();
 	String getDisplayText();
 	void setDisplayText(String displayText);
-	String getResponse(String input);
 }

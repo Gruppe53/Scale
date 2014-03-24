@@ -1,7 +1,7 @@
 package simulator;
 
 public interface ISimulatorDAO {
-	int getNetto();
+	String getNetto();
 	String getDisplayText();
 	void setDisplayText(String string);
 	String getTara();

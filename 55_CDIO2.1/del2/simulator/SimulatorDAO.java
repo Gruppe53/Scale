@@ -7,8 +7,8 @@ public class SimulatorDAO implements ISimulatorDAO {
 		this.sim = sim;
 	}
 	
-	public int getNetto() {
-		return (sim.getBrutto() - sim.getTara());
+	public String getNetto() {
+		return String.valueOf((sim.getBrutto() - sim.getTara()));
 	}
 
 	public String getDisplayText() {
@@ -16,32 +16,27 @@ public class SimulatorDAO implements ISimulatorDAO {
 	}
 
 	@Override
-	public void setDisplayText(String string) {
-		// TODO Auto-generated method stub
-		
+	public void setDisplayText(String displayText) {
+		sim.setDisplayText(displayText);
 	}
 
 	@Override
 	public String getTara() {
-		// TODO Auto-generated method stub
-		return null;
+		return String.valueOf(sim.getTara());
 	}
 
 	@Override
 	public void setTara() {
-		// TODO Auto-generated method stub
-		
+		sim.setTara();
 	}
 
 	@Override
 	public String getBrutto() {
-		// TODO Auto-generated method stub
-		return null;
+		return String.valueOf(sim.getBrutto());
 	}
 
 	@Override
-	public void setBrutto(double parseDouble) {
-		// TODO Auto-generated method stub
-		
+	public void setBrutto(double brutto) {
+		sim.setBrutto(brutto);
 	}
 }

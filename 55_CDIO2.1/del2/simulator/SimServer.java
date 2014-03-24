@@ -52,11 +52,11 @@ public class SimServer extends Thread {
 				else if (inputLine.startsWith("S")) {
 					updateScreen();
 					
-					out.println("S " + (sim.getNetto())+ " kg " +"\r\n");
+					out.println("S " + sim.getNetto() + " kg " +"\r\n");
 				}
 				
 				else if (inputLine.startsWith("B")) {
-					String temp = inputLine.substring(2,inputLine.length());
+					String temp = inputLine.substring(2, inputLine.length());
 					
 					sim.setBrutto(Double.parseDouble(temp));
 					
@@ -87,14 +87,14 @@ public class SimServer extends Thread {
 	private void updateScreen() {
 		System.out.println(" ");
 		System.out.println("*************************************************");
-		System.out.println("Netto: " + sim.getNetto()+ " kg" );
-		System.out.println("Displaytext: " + sim.getDisplayText() );
+		System.out.println("Netto: " + sim.getNetto()+ " kg");
+		System.out.println("Displaytext: " + sim.getDisplayText());
 		System.out.println("*************************************************");
 		System.out.println(" ");
 		System.out.println(" ");
 		System.out.println("Debug info:");
-		System.out.println("Hooked up to " + cltSocket.getInetAddress() );
-		System.out.println("Brutto: " + sim.getBrutto() + " kg" );
+		System.out.println("Hooked up to " + cltSocket.getInetAddress().getHostAddress());
+		System.out.println("Brutto: " + sim.getBrutto() + " kg");
 		System.out.println("Streng modtaget: " + inputLine);
 		System.out.println(" ");
 		System.out.println("Denne vegt simulator lytter på ordrene ");
