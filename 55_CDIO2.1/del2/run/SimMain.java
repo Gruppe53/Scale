@@ -40,7 +40,7 @@ public class SimMain {
     	
     	if(port.isEmpty())
 			port = defaultPort;
-		
+    	
 		try {
 			simDlo = new SimulatorDLO();
 			simDao = new SimulatorDAO(simDlo);

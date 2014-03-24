@@ -16,8 +16,10 @@ public class SimServer extends Thread {
 		this.sim = sim;
 		this.srvSocket = new ServerSocket(Integer.parseInt(port));
 		
-		cltSocket = srvSocket.accept();
+		System.out.println("Listening on port " + port + ", waiting for client...");
 		
+		cltSocket = srvSocket.accept();
+
 		out = new PrintWriter(cltSocket.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(cltSocket.getInputStream()));
 	}
@@ -25,7 +27,7 @@ public class SimServer extends Thread {
 	public void run() {
 		updateScreen();
 		
-		try{
+		try {
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("DN")) {
 					// TODO
@@ -34,7 +36,7 @@ public class SimServer extends Thread {
 					if (inputLine.equals("D"))
 						sim.setDisplayText("");
 					else
-						sim.setDisplayText(inputLine.substring(2,inputLine.length()));
+						sim.setDisplayText(inputLine.substring(2, inputLine.length()));
 					
 					updateScreen(); 
 					 
@@ -87,24 +89,21 @@ public class SimServer extends Thread {
 	private void updateScreen() {
 		System.out.println(" ");
 		System.out.println("*************************************************");
-		System.out.println("Netto: " + sim.getNetto()+ " kg");
+		System.out.println("Netto: " + sim.getNetto() + " kg");
 		System.out.println("Displaytext: " + sim.getDisplayText());
 		System.out.println("*************************************************");
 		System.out.println(" ");
-		System.out.println(" ");
-		System.out.println("Debug info:");
-		System.out.println("Hooked up to " + cltSocket.getInetAddress().getHostAddress());
+		System.out.println("Client adress: " + cltSocket.getInetAddress().getHostAddress());
 		System.out.println("Brutto: " + sim.getBrutto() + " kg");
-		System.out.println("Streng modtaget: " + inputLine);
+		System.out.println("Read line: " + inputLine);
 		System.out.println(" ");
-		System.out.println("Denne vegt simulator lytter på ordrene ");
-		System.out.println("D, DN, S, T, B, Q ");
-		System.out.println("paa kommunikationsporten. ");
+		System.out.println("Implemented commands:");
+		System.out.println("B, sets scale brutto.");
+		System.out.println("S, display current stable weight.");
+		System.out.println("T, tare scale.");
+		System.out.println("D, insert new displaytext.");
 		System.out.println("******");
-		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
-		System.out.println("Tast B for ny brutto (svarende til at belastningen paa vegt ændres)");
-		System.out.println("Tast Q for at afslutte program program");
-		System.out.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
+		System.out.println("Press Q to exit simulator.");
 		System.out.println("> ");
 	}
 }
