@@ -1,22 +1,16 @@
 package run;
 
+import java.io.IOException;
+
 import simulator.*;
 
 public class SimMain {
 	private static final String defaultPort = "8000"; // SETS DEFAULT LISTENING PORT FOR SERVER
 	private static String port;
 	
-	private ISimulatorDAO simDao;
-	private ISimulatorDLO simDlo;
-	
-	public SimMain() {
-		// Command-line Arguments
-		if(port.isEmpty())
-			port = defaultPort;
-		
-		simDlo = new SimulatorDLO();
-		simDao = new SimulatorDAO(simDlo);
-	}
+	private static ISimulatorDAO simDao;
+	private static ISimulatorDLO simDlo;
+	private static SimServer simSrv;
 
     public static void main(String[] args) {
     	// Get command-line arguments
@@ -29,5 +23,18 @@ public class SimMain {
     	else {
     		port = "";
     	}
+    	
+    	if(port.isEmpty())
+			port = defaultPort;
+		
+		try {
+			simDlo = new SimulatorDLO();
+			simDao = new SimulatorDAO(simDlo);
+			simSrv = new SimServer(simDao, port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		simSrv.start();
     }
 }

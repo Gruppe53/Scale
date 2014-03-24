@@ -21,12 +21,6 @@ public class SimulatorDialog extends JComponent {
 	
 	public SimulatorDialog(ISimulatorDAO sim, String port) {
 		this.sim = sim;
-		try {
-			this.srv = new SimServer(port);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		setLayout(new MigLayout());
 		
@@ -64,8 +58,6 @@ public class SimulatorDialog extends JComponent {
 		simScr.setBorder(null);
 		
 		simPanel.add(simScr);
-		
-		srv.start();
 		
 		add(simPanel);
 	}

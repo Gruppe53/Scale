@@ -3,5 +3,6 @@ package simulator;
 public interface ISimulatorDAO {
 	int getNetto();
 	String getDisplayText();
-	String getResponse(String input);
+	void setDisplayText(String string);
+	void setTara();
 }

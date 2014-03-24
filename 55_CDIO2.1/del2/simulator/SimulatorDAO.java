@@ -14,9 +14,4 @@ public class SimulatorDAO implements ISimulatorDAO {
 	public String getDisplayText() {
 		return simDlo.getDisplayText();
 	}
-
-	@Override
-	public String getResponse(String input) {
-		return simDlo.getResponse(input);
-	}
 }
