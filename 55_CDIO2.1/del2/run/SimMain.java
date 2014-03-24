@@ -11,9 +11,23 @@ public class SimMain {
 	private static ISimulatorDAO simDao;
 	private static ISimulatorDLO simDlo;
 	private static SimServer simSrv;
+	
+	public SimMain() {
+		if(port.isEmpty())
+			port = defaultPort;
+		
+		try {
+			simDlo = new SimulatorDLO();
+			simDao = new SimulatorDAO(simDlo);
+			simSrv = new SimServer(simDao, port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		simSrv.start();
+	}
 
     public static void main(String[] args) {
-    	// Get command-line arguments
     	if(args.length > 0) {
 	    	for(int i = 0; i < args.length; i++) {
 	    		if(args[i].equals("-port"))

@@ -1,19 +1,16 @@
 package simulator;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 public class SimServer extends Thread {
 	private ServerSocket srvSocket;
 	private Socket cltSocket;
-	private DataInputStream in;
-	private DataOutputStream out;
+	private BufferedReader in;
+	private PrintWriter out;
 	
 	private ISimulatorDAO sim;
-	private String inline;
+	private String inputLine;
 
 	public SimServer(ISimulatorDAO sim, String port) throws IOException {
 		this.sim = sim;
@@ -21,52 +18,54 @@ public class SimServer extends Thread {
 		
 		cltSocket = srvSocket.accept();
 		
-		in = new DataInputStream(cltSocket.getInputStream());
-		out = new DataOutputStream(cltSocket.getOutputStream());
+		out = new PrintWriter(cltSocket.getOutputStream(), true);
+		in = new BufferedReader(new InputStreamReader(cltSocket.getInputStream()));
 	}
 	
 	public void run() {
-		try{ 
-			while (!(inline = in.readLine().toUpperCase()).isEmpty()) {
-				if (inline.startsWith("DN")) {
+		updateScreen();
+		
+		try{
+			while ((inputLine = in.readLine()) != null) {
+				if (inputLine.startsWith("DN")) {
 					// TODO
 				}
-				else if (inline.startsWith("D")) {
-					if (inline.equals("D"))
+				else if (inputLine.startsWith("D")) {
+					if (inputLine.equals("D"))
 						sim.setDisplayText("");
 					else
-						sim.setDisplayText(inline.substring(2,inline.length()));
+						sim.setDisplayText(inputLine.substring(2,inputLine.length()));
 					
 					updateScreen(); 
 					 
-					out.writeBytes("DB"+"\r\n");
+					out.println("DB"+"\r\n");
 				}
 				
-				else if (inline.startsWith("T")) {
-					out.writeBytes("T " + (tara) + " kg "+"\r\n");
+				else if (inputLine.startsWith("T")) {
+					out.println("T " + sim.getTara() + " kg "+"\r\n");
 					
 					sim.setTara();
 					
 					updateScreen();
 				}
 				
-				else if (inline.startsWith("S")) {
+				else if (inputLine.startsWith("S")) {
 					updateScreen();
 					
-					out.writeBytes("S " + (sim.getNetto())+ " kg " +"\r\n");
+					out.println("S " + (sim.getNetto())+ " kg " +"\r\n");
 				}
 				
-				else if (inline.startsWith("B")) {
-					String temp = inline.substring(2,inline.length());
+				else if (inputLine.startsWith("B")) {
+					String temp = inputLine.substring(2,inputLine.length());
 					
 					sim.setBrutto(Double.parseDouble(temp));
 					
 					updateScreen(); 
 					
-					out.writeBytes("DB"+"\r\n");
+					out.println("DB"+"\r\n");
 				}
 				
-				else if ((inline.startsWith("Q"))) {
+				else if ((inputLine.startsWith("Q"))) {
 					System.out.println("");
 					System.out.println("Quitting...");
 					
@@ -86,7 +85,26 @@ public class SimServer extends Thread {
 	}
 
 	private void updateScreen() {
-		// TODO Auto-generated method stub
-		
+		System.out.println(" ");
+		System.out.println("*************************************************");
+		System.out.println("Netto: " + sim.getNetto()+ " kg" );
+		System.out.println("Displaytext: " + sim.getDisplayText() );
+		System.out.println("*************************************************");
+		System.out.println(" ");
+		System.out.println(" ");
+		System.out.println("Debug info:");
+		System.out.println("Hooked up to " + cltSocket.getInetAddress() );
+		System.out.println("Brutto: " + sim.getBrutto() + " kg" );
+		System.out.println("Streng modtaget: " + inputLine);
+		System.out.println(" ");
+		System.out.println("Denne vegt simulator lytter på ordrene ");
+		System.out.println("D, DN, S, T, B, Q ");
+		System.out.println("paa kommunikationsporten. ");
+		System.out.println("******");
+		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
+		System.out.println("Tast B for ny brutto (svarende til at belastningen paa vegt ændres)");
+		System.out.println("Tast Q for at afslutte program program");
+		System.out.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
+		System.out.println("> ");
 	}
 }
