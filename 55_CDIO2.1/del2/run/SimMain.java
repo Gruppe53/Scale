@@ -10,7 +10,7 @@ public class SimMain {
 	
 	private static ISimulatorDAO simDao;
 	private static ISimulatorDLO simDlo;
-	private static SimServer simSrv;
+	private static Thread simSrv;
 	
 	public SimMain() {
 		if(port.isEmpty())
@@ -45,7 +45,8 @@ public class SimMain {
 			simDlo = new SimulatorDLO();
 			simDao = new SimulatorDAO(simDlo);
 			simSrv = new SimServer(simDao, port);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
