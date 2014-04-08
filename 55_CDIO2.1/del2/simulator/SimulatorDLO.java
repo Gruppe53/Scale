@@ -9,6 +9,7 @@ public class SimulatorDLO implements ISimulatorDLO {
 		this.brutto = 0;
 		this.tara = 0;
 		this.displayText = "";
+		//Tjezt
 	}
 	
 	@Override
